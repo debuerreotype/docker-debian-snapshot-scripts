@@ -3,9 +3,7 @@ set -Eeuo pipefail
 
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
-arch='amd64'
-
-commit="$(git ls-remote https://github.com/debuerreotype/docker-debian-artifacts.git "refs/heads/dist-$arch" | cut -d$'\t' -f1)"
+commit="$(bashbrew cat --format '{{ .Manifest.Global.ArchGitCommit arch }}' https://github.com/docker-library/official-images/raw/master/library/debian)"
 [ -n "$commit" ]
 
 serial="$(wget -qO- "https://github.com/debuerreotype/docker-debian-artifacts/raw/$commit/serial")"
